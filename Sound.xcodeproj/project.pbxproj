@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0868AAC1414C42D0040CBFA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0868AAB1414C42D0040CBFA /* AudioToolbox.framework */; };
 		A0F8CD7D1414B406003DAF2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD7C1414B406003DAF2F /* UIKit.framework */; };
 		A0F8CD7F1414B406003DAF2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD7E1414B406003DAF2F /* Foundation.framework */; };
 		A0F8CD811414B406003DAF2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD801414B406003DAF2F /* CoreGraphics.framework */; };
@@ -23,6 +24,7 @@
 		A0F8CDA71414B406003DAF2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A0F8CDA51414B406003DAF2F /* InfoPlist.strings */; };
 		A0F8CDA91414B406003DAF2F /* SoundTests.h in Resources */ = {isa = PBXBuildFile; fileRef = A0F8CDA81414B406003DAF2F /* SoundTests.h */; };
 		A0F8CDAB1414B406003DAF2F /* SoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F8CDAA1414B406003DAF2F /* SoundTests.m */; };
+		A0F8CDB61414B6F0003DAF2F /* Synthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F8CDB51414B6F0003DAF2F /* Synthesizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,25 +38,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A0868AAB1414C42D0040CBFA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A0F8CD781414B406003DAF2F /* Sound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F8CD7C1414B406003DAF2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A0F8CD7E1414B406003DAF2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A0F8CD801414B406003DAF2F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		A0F8CD841414B406003DAF2F /* Sound-Info.plist */ = {isa = PBXFileReference; path = "Sound-Info.plist"; sourceTree = "<group>"; };
+		A0F8CD841414B406003DAF2F /* Sound-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sound-Info.plist"; sourceTree = "<group>"; };
 		A0F8CD861414B406003DAF2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A0F8CD881414B406003DAF2F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A0F8CD8A1414B406003DAF2F /* Sound-Prefix.pch */ = {isa = PBXFileReference; path = "Sound-Prefix.pch"; sourceTree = "<group>"; };
-		A0F8CD8B1414B406003DAF2F /* SoundAppDelegate.h */ = {isa = PBXFileReference; path = SoundAppDelegate.h; sourceTree = "<group>"; };
+		A0F8CD8A1414B406003DAF2F /* Sound-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sound-Prefix.pch"; sourceTree = "<group>"; };
+		A0F8CD8B1414B406003DAF2F /* SoundAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundAppDelegate.h; sourceTree = "<group>"; };
 		A0F8CD8C1414B406003DAF2F /* SoundAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoundAppDelegate.m; sourceTree = "<group>"; };
 		A0F8CD8F1414B406003DAF2F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		A0F8CD911414B406003DAF2F /* SoundViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundViewController.h; sourceTree = "<group>"; };
 		A0F8CD931414B406003DAF2F /* SoundViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoundViewController.m; sourceTree = "<group>"; };
 		A0F8CD9A1414B406003DAF2F /* SoundTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F8CD9B1414B406003DAF2F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		A0F8CDA41414B406003DAF2F /* SoundTests-Info.plist */ = {isa = PBXFileReference; path = "SoundTests-Info.plist"; sourceTree = "<group>"; };
+		A0F8CDA41414B406003DAF2F /* SoundTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SoundTests-Info.plist"; sourceTree = "<group>"; };
 		A0F8CDA61414B406003DAF2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A0F8CDA81414B406003DAF2F /* SoundTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundTests.h; sourceTree = "<group>"; };
 		A0F8CDAA1414B406003DAF2F /* SoundTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoundTests.m; sourceTree = "<group>"; };
+		A0F8CDB41414B6F0003DAF2F /* Synthesizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Synthesizer.h; sourceTree = "<group>"; };
+		A0F8CDB51414B6F0003DAF2F /* Synthesizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Synthesizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0868AAC1414C42D0040CBFA /* AudioToolbox.framework in Frameworks */,
 				A0F8CD7D1414B406003DAF2F /* UIKit.framework in Frameworks */,
 				A0F8CD7F1414B406003DAF2F /* Foundation.framework in Frameworks */,
 				A0F8CD811414B406003DAF2F /* CoreGraphics.framework in Frameworks */,
@@ -85,6 +91,7 @@
 		A0F8CD6D1414B406003DAF2F = {
 			isa = PBXGroup;
 			children = (
+				A0868AAB1414C42D0040CBFA /* AudioToolbox.framework */,
 				A0F8CD821414B406003DAF2F /* Sound */,
 				A0F8CDA21414B406003DAF2F /* SoundTests */,
 				A0F8CD7B1414B406003DAF2F /* Frameworks */,
@@ -120,6 +127,8 @@
 				A0F8CD8E1414B406003DAF2F /* MainStoryboard.storyboard */,
 				A0F8CD911414B406003DAF2F /* SoundViewController.h */,
 				A0F8CD931414B406003DAF2F /* SoundViewController.m */,
+				A0F8CDB41414B6F0003DAF2F /* Synthesizer.h */,
+				A0F8CDB51414B6F0003DAF2F /* Synthesizer.m */,
 				A0F8CD831414B406003DAF2F /* Supporting Files */,
 			);
 			path = Sound;
@@ -263,6 +272,7 @@
 				A0F8CD891414B406003DAF2F /* main.m in Sources */,
 				A0F8CD8D1414B406003DAF2F /* SoundAppDelegate.m in Sources */,
 				A0F8CD941414B406003DAF2F /* SoundViewController.m in Sources */,
+				A0F8CDB61414B6F0003DAF2F /* Synthesizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,7 +327,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -343,7 +353,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -434,6 +444,7 @@
 				A0F8CDB01414B406003DAF2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A0F8CDB11414B406003DAF2F /* Build configuration list for PBXNativeTarget "SoundTests" */ = {
 			isa = XCConfigurationList;
@@ -442,6 +453,7 @@
 				A0F8CDB31414B406003DAF2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

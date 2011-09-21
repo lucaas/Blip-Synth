@@ -7,7 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Synthesizer.h"
+@interface SoundViewController : UIViewController {
 
-@interface SoundViewController : UIViewController
+    Synthesizer *synthesizer;
+    UILabel *freqLabel;
+    UILabel *phaseOutlet;
+    UILabel *phaseLabel;
+    
+}
+@property (nonatomic, retain) Synthesizer *synthesizer;
+@property (nonatomic, retain) IBOutlet UILabel *freqLabel;
+@property (nonatomic, retain) IBOutlet UILabel *phaseLabel;
+
+- (IBAction)startButtonTapped:(id)sender;
+- (IBAction)freqValueChanged:(id)sender;
+- (IBAction)phaseValueChanged:(id)sender;
+- (IBAction)soundTypeChanged:(id)sender;
 
 @end
