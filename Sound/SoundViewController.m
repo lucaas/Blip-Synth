@@ -11,7 +11,7 @@
 @implementation SoundViewController
 @synthesize synthesizer;
 @synthesize freqLabel;
-@synthesize phaseLabel;
+@synthesize freqSlider;
 
 - (void)didReceiveMemoryWarning
 {
@@ -23,19 +23,56 @@
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    midi[0] = 261.626; // C4
+    midi[1] = 277.183;
+    midi[2] = 293.665;
+    midi[3] = 311.127;
+    midi[4] = 329.628;
+    midi[5] = 349.228;
+    midi[6] = 369.994;
+    midi[7] = 391.995;
+    midi[8] = 415.305;
+    midi[9] = 440.000;
+    midi[10] = 466.164;
+    midi[11] = 493.883;
+    midi[12] = 523.251;
+    midi[13] = 554.365;
+    midi[14] = 587.330;
+    midi[15] = 622.254; // D5
+    
+    // Set up buttons
+    UIImage *keyImage = [UIImage imageNamed:@"key.png"];
+    UIImage *keyPressedImage = [UIImage imageNamed:@"key-pressed.png"];
+    int margin = 32;
+    int width = 64;
+    int height = 256;
+    int top = 768-height-margin;
+    for (int i=0; i < 15; ++i) {
+        UIButton *key = [[[UIButton alloc] initWithFrame:CGRectMake(margin+i*width, top, width, height)] autorelease];
+        [key setImage:keyImage forState:UIControlStateNormal];
+        [key setImage:keyPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        key.tag = i;
+        [key addTarget:self action:@selector(keyPressed:) forControlEvents:UIControlEventTouchDown];
+        [self.view addSubview:key];
+    
+    }
+    
+    // Synth
     self.synthesizer = [[Synthesizer alloc] init];
 }
 
 - (void)viewDidUnload
 {
     [self setFreqLabel:nil];
-    [self setPhaseLabel:nil];
+    [self setFreqSlider:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     self.synthesizer = nil;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -74,9 +111,10 @@
     
 }
 
-- (IBAction)phaseValueChanged:(UISlider *)sender {
-    synthesizer.theta = sender.value * 2 * M_PI;
-    phaseLabel.text = [NSString stringWithFormat:@"Phase %1.1f", sender.value];
+-(void)keyPressed:(UIButton *)sender {
+    synthesizer.frequency = midi[sender.tag];
+    freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", midi[sender.tag]];
+    freqSlider.value = midi[sender.tag];
 }
 
 - (IBAction)soundTypeChanged:(UISegmentedControl *)sender {
@@ -96,8 +134,6 @@
     }
 }
 - (void)dealloc {
-    [freqLabel release];
-    [phaseLabel release];
     [super dealloc];
 }
 @end

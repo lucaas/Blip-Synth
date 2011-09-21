@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+
+#import "WaveSawtooth.h"
+#import "WaveSquare.h"
+#import "WaveTriangle.h"
+
 typedef enum {
     kSinus,
     kSquare,
@@ -22,6 +27,11 @@ typedef enum {
     AudioComponentInstance toneUnit;
     
     WaveType waveType;
+    
+    
+    WaveSawtooth *sawtooth;
+    WaveSquare *square;
+    WaveTriangle *triangle;
     
 }
 

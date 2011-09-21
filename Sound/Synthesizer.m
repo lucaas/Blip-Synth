@@ -21,7 +21,11 @@
         // Initialization code here.
         sampleRate = 44100.00;
         frequency = 440; // Hz
-       theta = M_PI / 2;
+        theta = M_PI / 2;
+        
+        sawtooth = [[WaveSawtooth alloc] init];
+        square = [[WaveSquare alloc] init];
+        triangle = [[WaveTriangle alloc] init];
     }
     
     return self;
@@ -31,29 +35,6 @@ double sinvalue(double angle, double amplitude) {
     return sin(angle) * amplitude;
 }
 
-double square(double angle, double amplitude) {
-    double sign = (sin(angle) > 0)  ? 1 : -1;
-    return sign * amplitude;
-}
-
-double sawtooth(double angle, double amplitude, double sampleRate) {
-    double value = 0;
-    for (int k = 1; k < 24; ++k) {
-        value += sin(k*angle) / k;
-    }
-    value *= amplitude * -2 / M_PI;
-    return value;
-
-}
-
-double triangle(int period, int frame, double amplitude) {
-    // This gives a triangular wave of period 6, oscillating between 3 and 0.
-    // http://stackoverflow.com/questions/1073606/is-there-a-one-line-function-that-generates-a-triangle-wave
-    // y = abs((x++ % 6) - 3);
-    
-    double value = amplitude * (2.0/period) * abs((frame % period) - period/2);
-    return value;
-}
 
 OSStatus RenderTone(
                     void *inRefCon, 
@@ -65,7 +46,7 @@ OSStatus RenderTone(
 
 {
     // Fixed amplitude is good enough for our purposes
-    const double amplitude = 0.25;
+    const double amplitude = 0.5;
     
     // Get the tone parameters out of the view controller
 	Synthesizer *synthesizer = (Synthesizer *)(inRefCon);
@@ -84,13 +65,14 @@ OSStatus RenderTone(
                 buffer[frame] = sinvalue(theta, amplitude);
                 break;
             case kSquare:
-                buffer[frame] = square(theta, amplitude);
+                buffer[frame] = [synthesizer->square nextValue];
                 break;            
             case kSawTooth:
-                buffer[frame] = sawtooth(theta, amplitude, synthesizer->sampleRate);
+                buffer[frame] = [synthesizer->sawtooth nextValue];
+
                 break;
             case kTriangle:
-                buffer[frame] = triangle(period, frame, amplitude);
+                buffer[frame] = [synthesizer->triangle nextValue];
                 break;
             default:
                 buffer[frame] = 0.0;
@@ -107,6 +89,13 @@ OSStatus RenderTone(
     synthesizer->theta = theta;
     
     return noErr;
+}
+
+- (void)setFrequency:(double)freq {
+    frequency = freq;
+    sawtooth.freq = freq;
+    square.freq = freq;
+    triangle.freq = freq;
 }
 
 

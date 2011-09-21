@@ -12,17 +12,19 @@
 
     Synthesizer *synthesizer;
     UILabel *freqLabel;
-    UILabel *phaseOutlet;
-    UILabel *phaseLabel;
+    UISlider *freqSlider;
+    
+    NSMutableArray *keyboard;
+    
+    float midi[16];
     
 }
 @property (nonatomic, retain) Synthesizer *synthesizer;
 @property (nonatomic, retain) IBOutlet UILabel *freqLabel;
-@property (nonatomic, retain) IBOutlet UILabel *phaseLabel;
+@property (nonatomic, retain) IBOutlet UISlider *freqSlider;
 
 - (IBAction)startButtonTapped:(id)sender;
 - (IBAction)freqValueChanged:(id)sender;
-- (IBAction)phaseValueChanged:(id)sender;
 - (IBAction)soundTypeChanged:(id)sender;
 
 @end
