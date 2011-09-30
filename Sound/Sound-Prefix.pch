@@ -12,3 +12,11 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+
+
+#define ATTACK 0
+#define DECAY 1
+#define SUSTAIN 2
+#define RELEASE 3
+

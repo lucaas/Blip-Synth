@@ -15,6 +15,8 @@
 		A0867DA3142A29BF0045B11B /* Wave.m in Sources */ = {isa = PBXBuildFile; fileRef = A0867DA2142A29BF0045B11B /* Wave.m */; };
 		A0867DA9142A302B0045B11B /* WaveTriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = A0867DA8142A302B0045B11B /* WaveTriangle.m */; };
 		A0868AAC1414C42D0040CBFA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0868AAB1414C42D0040CBFA /* AudioToolbox.framework */; };
+		A0B59C951435BA1E00B34D4B /* synth.png in Resources */ = {isa = PBXBuildFile; fileRef = A0B59C941435BA1E00B34D4B /* synth.png */; };
+		A0B59C991435F6BB00B34D4B /* WaveNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B59C981435F6BB00B34D4B /* WaveNoise.m */; };
 		A0F8CD7D1414B406003DAF2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD7C1414B406003DAF2F /* UIKit.framework */; };
 		A0F8CD7F1414B406003DAF2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD7E1414B406003DAF2F /* Foundation.framework */; };
 		A0F8CD811414B406003DAF2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD801414B406003DAF2F /* CoreGraphics.framework */; };
@@ -58,6 +60,9 @@
 		A0867DA7142A302A0045B11B /* WaveTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveTriangle.h; sourceTree = "<group>"; };
 		A0867DA8142A302B0045B11B /* WaveTriangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveTriangle.m; sourceTree = "<group>"; };
 		A0868AAB1414C42D0040CBFA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		A0B59C941435BA1E00B34D4B /* synth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = synth.png; sourceTree = SOURCE_ROOT; };
+		A0B59C971435F6BB00B34D4B /* WaveNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveNoise.h; sourceTree = "<group>"; };
+		A0B59C981435F6BB00B34D4B /* WaveNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveNoise.m; sourceTree = "<group>"; };
 		A0F8CD781414B406003DAF2F /* Sound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F8CD7C1414B406003DAF2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A0F8CD7E1414B406003DAF2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -110,6 +115,7 @@
 		A0867D99142A1F0D0045B11B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A0B59C941435BA1E00B34D4B /* synth.png */,
 				A0867D95142A1F010045B11B /* key-presed.png */,
 				A0867D96142A1F010045B11B /* key.png */,
 			);
@@ -131,6 +137,8 @@
 				A0867DA2142A29BF0045B11B /* Wave.m */,
 				A0867DA7142A302A0045B11B /* WaveTriangle.h */,
 				A0867DA8142A302B0045B11B /* WaveTriangle.m */,
+				A0B59C971435F6BB00B34D4B /* WaveNoise.h */,
+				A0B59C981435F6BB00B34D4B /* WaveNoise.m */,
 			);
 			name = Synth;
 			sourceTree = "<group>";
@@ -283,6 +291,7 @@
 				A0F8CD921414B406003DAF2F /* SoundViewController.h in Resources */,
 				A0867D97142A1F010045B11B /* key-presed.png in Resources */,
 				A0867D98142A1F010045B11B /* key.png in Resources */,
+				A0B59C951435BA1E00B34D4B /* synth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +336,7 @@
 				A0867DA0142A29600045B11B /* WaveSquare.m in Sources */,
 				A0867DA3142A29BF0045B11B /* Wave.m in Sources */,
 				A0867DA9142A302B0045B11B /* WaveTriangle.m in Sources */,
+				A0B59C991435F6BB00B34D4B /* WaveNoise.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

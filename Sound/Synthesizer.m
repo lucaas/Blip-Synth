@@ -12,7 +12,12 @@
 @synthesize sampleRate;
 @synthesize frequency;
 @synthesize theta;
+@synthesize attack;
+@synthesize decay;
+@synthesize sustain;
+@synthesize release;
 @synthesize waveType;
+@synthesize isADSR;
 
 - (id)init
 {
@@ -26,6 +31,9 @@
         sawtooth = [[WaveSawtooth alloc] init];
         square = [[WaveSquare alloc] init];
         triangle = [[WaveTriangle alloc] init];
+        noise = [[WaveNoise alloc] init];
+        
+        isADSR = NO;
     }
     
     return self;
@@ -33,6 +41,20 @@
 
 double sinvalue(double angle, double amplitude) {
     return sin(angle) * amplitude;
+}
+
+
+double linearInterpolation(double x, double x0, double x1, double y0, double y1) {
+    return y0 + (x-x0) * ((y1-y0)/(x1-x0));
+}
+
+- (EnvelopeMode) envelopeMode {
+    return envelopeMode;
+}
+- (void) setEnvelopeMode:(EnvelopeMode)_envelopeMode {
+    envelopeMode = _envelopeMode;
+    startTime = -1;
+    NSLog(@"Changed envelope mode to: %d", envelopeMode);
 }
 
 
@@ -46,13 +68,72 @@ OSStatus RenderTone(
 
 {
     // Fixed amplitude is good enough for our purposes
-    const double amplitude = 0.5;
+    
     
     // Get the tone parameters out of the view controller
 	Synthesizer *synthesizer = (Synthesizer *)(inRefCon);
+    
+    
+    
+    // ADSR ENVELOPE -----
+    
+    if (synthesizer->startTime == -1)
+        synthesizer->startTime = inTimeStamp->mSampleTime / synthesizer->sampleRate;
+    double amplitude = 1.0;
+
+    if (synthesizer->isADSR) {
+        Float64 elapsed_time = inTimeStamp->mSampleTime / synthesizer->sampleRate - synthesizer->startTime;    
+
+        static const double maxAmp = 1.0;
+        switch (synthesizer->envelopeMode) {
+            case kAttack:
+                if (elapsed_time < synthesizer->attack) {
+                    amplitude = linearInterpolation(elapsed_time, 0, synthesizer->attack, 0, maxAmp);
+                }
+                else {
+                    synthesizer->startTime = inTimeStamp->mSampleTime / synthesizer->sampleRate;
+                    amplitude = maxAmp;
+                    synthesizer->envelopeMode = kDecay;
+                }
+                break;
+            case kDecay:
+                if (elapsed_time < synthesizer->decay) {
+                    double t0 = 0.0;
+                    // linear interpolation maxamp -> sustain from t0 -> decay.
+                    amplitude = linearInterpolation(elapsed_time, t0, synthesizer->decay, maxAmp, synthesizer->sustain);
+                }
+                else {
+                    amplitude = synthesizer->sustain;
+                    synthesizer->envelopeMode = kSustain;
+                }
+                break;
+            case kSustain:
+                amplitude = synthesizer->sustain;
+                break;
+            case kRelease:
+                if (elapsed_time < synthesizer->release) {
+                    double t0 = 0.0;
+                    double y1 = 0.0;
+                    // linear interpolation sustain -> 0 from t0 -> release.
+                    amplitude = linearInterpolation(elapsed_time, t0, synthesizer->release, synthesizer->sustain, y1);
+                    //NSLog(@"releasing: %2.2f, %2.2f, %2.2f, %2.2f", elapsed_time, t0, synthesizer->release, synthesizer->sustain);
+                }
+                else    {
+                    amplitude = 0;
+                    // TODO: Stop playing
+                }
+                break;
+        }
+    }
+    
+    // END ADSR ---
+             
+             
+
 	double theta = synthesizer->theta;
 	double theta_increment = 2.0 * M_PI * synthesizer->frequency / synthesizer->sampleRate;
     int period = (int)(synthesizer->sampleRate / synthesizer->frequency);
+             
     // This is a mono tone generator so we only need the first buffer
     const int channel = 0;
     Float32 *buffer = (Float32 *)ioData->mBuffers[channel].mData;
@@ -64,16 +145,23 @@ OSStatus RenderTone(
             case kSinus:
                 buffer[frame] = sinvalue(theta, amplitude);
                 break;
+                
             case kSquare:
-                buffer[frame] = [synthesizer->square nextValue];
-                break;            
+                buffer[frame] = amplitude * [synthesizer->square nextValue];
+                break; 
+                
             case kSawTooth:
-                buffer[frame] = [synthesizer->sawtooth nextValue];
-
+                buffer[frame] = amplitude * [synthesizer->sawtooth nextValue];
                 break;
+                
             case kTriangle:
-                buffer[frame] = [synthesizer->triangle nextValue];
+                buffer[frame] = amplitude * [synthesizer->triangle nextValue];
                 break;
+                
+            case kNoise:
+                buffer[frame] = amplitude * [synthesizer->noise nextValue];
+                break;
+                
             default:
                 buffer[frame] = 0.0;
 
@@ -96,7 +184,9 @@ OSStatus RenderTone(
     sawtooth.freq = freq;
     square.freq = freq;
     triangle.freq = freq;
+    noise.freq = freq;
 }
+
 
 
 
@@ -158,6 +248,10 @@ OSStatus RenderTone(
 {
     if (!toneUnit)
     {
+        
+        // Set start time
+        startTime = -1;
+        
         // Create the audio unit as shown above
         [self createToneUnit];
         
@@ -168,6 +262,7 @@ OSStatus RenderTone(
         // Start playback
         err = AudioOutputUnitStart(toneUnit);
         NSAssert1(err == noErr, @"Error starting unit: %ld", err);
+        
     }
     else
     {

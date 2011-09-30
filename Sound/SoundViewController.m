@@ -56,8 +56,42 @@
         [key setImage:keyPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
         key.tag = i;
         [key addTarget:self action:@selector(keyPressed:) forControlEvents:UIControlEventTouchDown];
+        [key addTarget:self action:@selector(keyUp:) forControlEvents:(UIControlEventTouchCancel | 
+                                                                       UIControlEventTouchDragExit | 
+                                                                       UIControlEventTouchUpInside | 
+                                                                       UIControlEventTouchUpOutside)];
         [self.view addSubview:key];
     
+    }
+    
+    // Set up ADSR sliders
+    NSArray *adsrTexts = [NSArray arrayWithObjects:@"A", @"D", @"S", @"R", nil];
+    for (int i=0; i < 4; ++i) {
+        int left = 700;
+        int margin = 8;
+        int width = 32;
+        int height = 192;
+        int top = 150;
+        
+        int leftvalue = left+i*(width+margin);
+        CGRect sliderFrame = CGRectMake(leftvalue, top, height, width);
+        UISlider *slider = [[[UISlider alloc] initWithFrame:sliderFrame] autorelease];
+        slider.tag = i;
+        [slider addTarget:self action:@selector(ADSRChanged:) forControlEvents:UIControlEventValueChanged];
+        CGAffineTransform trans = CGAffineTransformMakeRotation(M_PI * -0.5);
+        slider.transform = trans;
+        [self.view addSubview:slider];
+        
+        sliderFrame = slider.frame;
+        CGRect labelFrame = CGRectMake(sliderFrame.origin.x, sliderFrame.origin.y + sliderFrame.size.height, width+margin, width);
+        UILabel *label = [[[UILabel alloc] initWithFrame:labelFrame] autorelease];
+        label.textAlignment = UITextAlignmentCenter;
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont boldSystemFontOfSize:width];
+        label.text = [adsrTexts objectAtIndex:i];
+        [self.view addSubview:label];
+        
     }
     
     // Synth
@@ -111,10 +145,32 @@
     
 }
 
+- (void)ADSRChanged:(UISlider *)sender {
+    switch (sender.tag) {
+        case ATTACK:
+            synthesizer.attack = sender.value;
+            break;        
+        case DECAY:
+            synthesizer.decay = sender.value;
+            break;        
+        case SUSTAIN:
+            synthesizer.sustain = sender.value;
+            break;        
+        case RELEASE:
+            synthesizer.release = sender.value;
+            break;
+    }
+}
+
 -(void)keyPressed:(UIButton *)sender {
+    synthesizer.envelopeMode = kAttack;
     synthesizer.frequency = midi[sender.tag];
     freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", midi[sender.tag]];
     freqSlider.value = midi[sender.tag];
+}
+
+-(void)keyUp:(UIButton *)sender {
+    synthesizer.envelopeMode = kRelease;
 }
 
 - (IBAction)soundTypeChanged:(UISegmentedControl *)sender {
@@ -130,9 +186,17 @@
             break;        
         case 3:
             synthesizer.waveType = kTriangle;
+            break;        
+        case 4:
+            synthesizer.waveType = kNoise;
             break;
     }
 }
+
+- (IBAction)ADSRSwitchChanged:(UISwitch *)sender {
+    synthesizer.isADSR = sender.on;
+}
+
 - (void)dealloc {
     [super dealloc];
 }

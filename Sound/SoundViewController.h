@@ -26,5 +26,6 @@
 - (IBAction)startButtonTapped:(id)sender;
 - (IBAction)freqValueChanged:(id)sender;
 - (IBAction)soundTypeChanged:(id)sender;
+- (IBAction)ADSRSwitchChanged:(id)sender;
 
 @end
