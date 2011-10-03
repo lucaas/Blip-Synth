@@ -13,6 +13,9 @@
 #import "WaveSquare.h"
 #import "WaveTriangle.h"
 #import "WaveNoise.h"
+
+#define kMaxLFOAmplitude 0.25
+
 typedef enum {
     kSinus,
     kSquare,
@@ -32,14 +35,22 @@ typedef enum {
     double theta;
     double sampleRate;
     double frequency;
-    double startTime;
+    double elapsed;
     
     BOOL isADSR;
-    float attack;
-    float decay;
-    float sustain;
-    float release;
+    BOOL active;
+    
+    double maxAmp;
+    double attack;
+    double decay;
+    double sustain;
+    double release;
     EnvelopeMode envelopeMode;
+    
+    
+    BOOL LFOAmplitude;
+    double lfoAmount;
+    double lfoFreq;
     
     AudioComponentInstance toneUnit;
     
@@ -56,10 +67,10 @@ typedef enum {
 @property (nonatomic, assign) double theta;
 @property (nonatomic, assign) double sampleRate;
 @property (nonatomic, assign) double frequency;
-@property (nonatomic, assign) float attack;
-@property (nonatomic, assign) float decay;
-@property (nonatomic, assign) float sustain;
-@property (nonatomic, assign) float release;
+@property (nonatomic, assign) double attack;
+@property (nonatomic, assign) double decay;
+@property (nonatomic, assign) double sustain;
+@property (nonatomic, assign) double release;
 @property (nonatomic, assign) WaveType waveType;
 @property (nonatomic, assign) EnvelopeMode envelopeMode;
 @property (nonatomic, assign) BOOL isADSR;
@@ -71,5 +82,11 @@ OSStatus RenderTone(void *inRefCon,
                     UInt32 inNumberFrames, 
                     AudioBufferList *ioData);
 - (void) togglePlay;
+
+
+
+- (void)setLFOEnabled:(BOOL)enabled;
+- (void)setLFOFreq:(double)freq;
+- (void)setLFOAmount:(double)freq;
 
 @end

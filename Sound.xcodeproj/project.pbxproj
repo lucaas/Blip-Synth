@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A034A4B81439AF6800223E02 /* sine.png in Resources */ = {isa = PBXBuildFile; fileRef = A034A4B71439AF6800223E02 /* sine.png */; };
+		A034A4BE1439B0B900223E02 /* noise.png in Resources */ = {isa = PBXBuildFile; fileRef = A034A4BA1439B0B900223E02 /* noise.png */; };
+		A034A4BF1439B0B900223E02 /* saw.png in Resources */ = {isa = PBXBuildFile; fileRef = A034A4BB1439B0B900223E02 /* saw.png */; };
+		A034A4C01439B0B900223E02 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = A034A4BC1439B0B900223E02 /* square.png */; };
+		A034A4C11439B0B900223E02 /* triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = A034A4BD1439B0B900223E02 /* triangle.png */; };
 		A0867D901429FEE50045B11B /* BLIT.m in Sources */ = {isa = PBXBuildFile; fileRef = A0867D8F1429FEE50045B11B /* BLIT.m */; };
 		A0867D94142A0AE20045B11B /* WaveSawtooth.m in Sources */ = {isa = PBXBuildFile; fileRef = A0867D93142A0AE20045B11B /* WaveSawtooth.m */; };
 		A0867D97142A1F010045B11B /* key-presed.png in Resources */ = {isa = PBXBuildFile; fileRef = A0867D95142A1F010045B11B /* key-presed.png */; };
@@ -47,6 +52,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A034A4B71439AF6800223E02 /* sine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sine.png; sourceTree = SOURCE_ROOT; };
+		A034A4BA1439B0B900223E02 /* noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noise.png; sourceTree = SOURCE_ROOT; };
+		A034A4BB1439B0B900223E02 /* saw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saw.png; sourceTree = SOURCE_ROOT; };
+		A034A4BC1439B0B900223E02 /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = SOURCE_ROOT; };
+		A034A4BD1439B0B900223E02 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = SOURCE_ROOT; };
 		A0867D8E1429FEE40045B11B /* BLIT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLIT.h; sourceTree = "<group>"; };
 		A0867D8F1429FEE50045B11B /* BLIT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLIT.m; sourceTree = "<group>"; };
 		A0867D92142A0AE20045B11B /* WaveSawtooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSawtooth.h; sourceTree = "<group>"; };
@@ -115,6 +125,11 @@
 		A0867D99142A1F0D0045B11B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A034A4BA1439B0B900223E02 /* noise.png */,
+				A034A4BB1439B0B900223E02 /* saw.png */,
+				A034A4BC1439B0B900223E02 /* square.png */,
+				A034A4BD1439B0B900223E02 /* triangle.png */,
+				A034A4B71439AF6800223E02 /* sine.png */,
 				A0B59C941435BA1E00B34D4B /* synth.png */,
 				A0867D95142A1F010045B11B /* key-presed.png */,
 				A0867D96142A1F010045B11B /* key.png */,
@@ -292,6 +307,11 @@
 				A0867D97142A1F010045B11B /* key-presed.png in Resources */,
 				A0867D98142A1F010045B11B /* key.png in Resources */,
 				A0B59C951435BA1E00B34D4B /* synth.png in Resources */,
+				A034A4B81439AF6800223E02 /* sine.png in Resources */,
+				A034A4BE1439B0B900223E02 /* noise.png in Resources */,
+				A034A4BF1439B0B900223E02 /* saw.png in Resources */,
+				A034A4C01439B0B900223E02 /* square.png in Resources */,
+				A034A4C11439B0B900223E02 /* triangle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

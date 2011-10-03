@@ -34,13 +34,15 @@
         noise = [[WaveNoise alloc] init];
         
         isADSR = NO;
+        elapsed = 0.0;
+        maxAmp = 1.0;
+        
+        LFOAmplitude = NO;
+        lfoAmount = 0.5;
+        lfoFreq = 10.0;
     }
     
     return self;
-}
-
-double sinvalue(double angle, double amplitude) {
-    return sin(angle) * amplitude;
 }
 
 
@@ -52,11 +54,62 @@ double linearInterpolation(double x, double x0, double x1, double y0, double y1)
     return envelopeMode;
 }
 - (void) setEnvelopeMode:(EnvelopeMode)_envelopeMode {
+    active = YES;
     envelopeMode = _envelopeMode;
-    startTime = -1;
+    elapsed = 0.0;
     NSLog(@"Changed envelope mode to: %d", envelopeMode);
 }
 
+
+-(double)adsrAmplitude {
+    double amplitude = 0;
+    switch (envelopeMode) {
+        case kAttack:
+            if (elapsed < attack) {
+                double t0 = 0.0;
+                double y0 = 0.0;
+                // linear interpolation y0 -> maxAmp from t0 -> attack.
+                amplitude = linearInterpolation(elapsed, t0, attack, y0, maxAmp);
+            }
+            else {
+                elapsed = 0.0;
+                amplitude = maxAmp;
+                envelopeMode = kDecay;
+            }
+            break;
+        case kDecay:
+            if (elapsed < decay) {
+                double t0 = 0.0;
+                // linear interpolation maxamp -> sustain from t0 -> decay.
+                amplitude = linearInterpolation(elapsed, t0, decay, maxAmp, sustain);
+            }
+            else {
+                elapsed = 0.0;
+                amplitude = sustain;
+                envelopeMode = kSustain;
+            }
+            break;
+        case kSustain:
+            amplitude = sustain;
+            break;
+        case kRelease:
+            if ( elapsed < release) {
+                double t0 = 0.0;
+                double y1 = 0.0;
+                // linear interpolation sustain -> 0 from t0 -> release.
+                amplitude = linearInterpolation( elapsed, t0, release, sustain, y1);
+            }
+            else    {
+                active = NO;
+                amplitude = 0;
+            }
+            break;
+    }
+    
+    //NSLog(@"mode: %d, elapsed: %2.2f < %2.2f ?, amp: %2.2f ", envelopeMode,  elapsed, attack, amplitude);
+    return amplitude;
+
+}
 
 OSStatus RenderTone(
                     void *inRefCon, 
@@ -66,73 +119,20 @@ OSStatus RenderTone(
                     UInt32 inNumberFrames, 
                     AudioBufferList *ioData)
 
-{
-    // Fixed amplitude is good enough for our purposes
-    
+{    
     
     // Get the tone parameters out of the view controller
 	Synthesizer *synthesizer = (Synthesizer *)(inRefCon);
     
     
-    
-    // ADSR ENVELOPE -----
-    
-    if (synthesizer->startTime == -1)
-        synthesizer->startTime = inTimeStamp->mSampleTime / synthesizer->sampleRate;
-    double amplitude = 1.0;
 
-    if (synthesizer->isADSR) {
-        Float64 elapsed_time = inTimeStamp->mSampleTime / synthesizer->sampleRate - synthesizer->startTime;    
+    double amplitude = synthesizer->maxAmp;
 
-        static const double maxAmp = 1.0;
-        switch (synthesizer->envelopeMode) {
-            case kAttack:
-                if (elapsed_time < synthesizer->attack) {
-                    amplitude = linearInterpolation(elapsed_time, 0, synthesizer->attack, 0, maxAmp);
-                }
-                else {
-                    synthesizer->startTime = inTimeStamp->mSampleTime / synthesizer->sampleRate;
-                    amplitude = maxAmp;
-                    synthesizer->envelopeMode = kDecay;
-                }
-                break;
-            case kDecay:
-                if (elapsed_time < synthesizer->decay) {
-                    double t0 = 0.0;
-                    // linear interpolation maxamp -> sustain from t0 -> decay.
-                    amplitude = linearInterpolation(elapsed_time, t0, synthesizer->decay, maxAmp, synthesizer->sustain);
-                }
-                else {
-                    amplitude = synthesizer->sustain;
-                    synthesizer->envelopeMode = kSustain;
-                }
-                break;
-            case kSustain:
-                amplitude = synthesizer->sustain;
-                break;
-            case kRelease:
-                if (elapsed_time < synthesizer->release) {
-                    double t0 = 0.0;
-                    double y1 = 0.0;
-                    // linear interpolation sustain -> 0 from t0 -> release.
-                    amplitude = linearInterpolation(elapsed_time, t0, synthesizer->release, synthesizer->sustain, y1);
-                    //NSLog(@"releasing: %2.2f, %2.2f, %2.2f, %2.2f", elapsed_time, t0, synthesizer->release, synthesizer->sustain);
-                }
-                else    {
-                    amplitude = 0;
-                    // TODO: Stop playing
-                }
-                break;
-        }
-    }
-    
-    // END ADSR ---
-             
-             
+    double theta = synthesizer->theta;
+    double theta_increment = 2.0 * M_PI * synthesizer->frequency / synthesizer->sampleRate;   
 
-	double theta = synthesizer->theta;
-	double theta_increment = 2.0 * M_PI * synthesizer->frequency / synthesizer->sampleRate;
-    int period = (int)(synthesizer->sampleRate / synthesizer->frequency);
+
+    //int period = (int)(synthesizer->sampleRate / synthesizer->frequency);
              
     // This is a mono tone generator so we only need the first buffer
     const int channel = 0;
@@ -141,41 +141,58 @@ OSStatus RenderTone(
     // Generate the samples
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) 
     {
-        switch (synthesizer->waveType) {
+        if (synthesizer->active) {
+            if (synthesizer->isADSR) {
+                synthesizer->elapsed += (double) 1.0 / synthesizer->sampleRate;
+                amplitude = [synthesizer adsrAmplitude];
+            }
+            // LFO, AMP
+            double lfoAmplitude = amplitude;
+            if (synthesizer->LFOAmplitude) {
+                static int sampleNumber = 0;
+                ++sampleNumber;
+                lfoAmplitude = amplitude + kMaxLFOAmplitude*synthesizer->lfoAmount*sin(2*M_PI*sampleNumber*synthesizer->lfoFreq/synthesizer->sampleRate);
+            }
+            switch (synthesizer->waveType) {
             case kSinus:
-                buffer[frame] = sinvalue(theta, amplitude);
+
+                buffer[frame] =  lfoAmplitude * sin(theta);
+                theta += theta_increment;
+                if (theta > 2.0 * M_PI)
+                {
+                    theta -= 2.0 * M_PI;
+                }
                 break;
                 
             case kSquare:
-                buffer[frame] = amplitude * [synthesizer->square nextValue];
+                buffer[frame] = lfoAmplitude * [synthesizer->square nextValue];
                 break; 
                 
             case kSawTooth:
-                buffer[frame] = amplitude * [synthesizer->sawtooth nextValue];
+                buffer[frame] = lfoAmplitude * [synthesizer->sawtooth nextValue];
                 break;
                 
             case kTriangle:
-                buffer[frame] = amplitude * [synthesizer->triangle nextValue];
+                buffer[frame] = lfoAmplitude * [synthesizer->triangle nextValue];
                 break;
                 
             case kNoise:
-                buffer[frame] = amplitude * [synthesizer->noise nextValue];
+                buffer[frame] = lfoAmplitude * [synthesizer->noise nextValue];
                 break;
                 
             default:
                 buffer[frame] = 0.0;
 
+            }
+        }
+        else {
+            buffer[frame] = 0.0;
         }
         
-        
-        theta += theta_increment;
-        if (theta > 2.0 * M_PI)
-        {
-            theta -= 2.0 * M_PI;
-        }
+    
     }
     synthesizer->theta = theta;
-    
+
     return noErr;
 }
 
@@ -187,6 +204,34 @@ OSStatus RenderTone(
     noise.freq = freq;
 }
 
+- (void)setLFOEnabled:(BOOL)enabled vibrato:(BOOL)vibrato {
+    if (enabled) {
+        sawtooth.LFOEnabled = vibrato;
+        square.LFOEnabled = vibrato;
+        triangle.LFOEnabled = vibrato;
+        LFOAmplitude = !vibrato;
+    }
+    else {
+        sawtooth.LFOEnabled = NO;
+        square.LFOEnabled = NO;
+        triangle.LFOEnabled = NO;
+        LFOAmplitude = NO;
+    }
+}
+
+- (void)setLFOFreq:(double)freq {
+    lfoFreq = freq;
+    sawtooth.LFOFreq = freq;
+    square.LFOFreq = freq;
+    triangle.LFOFreq = freq;
+}
+
+- (void)setLFOAmount:(double)freq {
+    lfoAmount = freq;
+    sawtooth.LFOAmount = freq;
+    square.LFOAmount = freq;
+    triangle.LFOAmount = freq;
+}
 
 
 
@@ -250,7 +295,8 @@ OSStatus RenderTone(
     {
         
         // Set start time
-        startTime = -1;
+        elapsed = 0.0;
+        active = YES;
         
         // Create the audio unit as shown above
         [self createToneUnit];

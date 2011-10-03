@@ -10,6 +10,7 @@
 
 
 #define kSampleRate 44100;
+#define kMaxLFOAmount 40.0;
 
 @interface BLIT : NSObject {
     int fs;                 // sample rate (hz)
@@ -21,13 +22,24 @@
     int sign;               // Sign of impulse
     BOOL bipolar;           // YES => bipolar impulses, NO => normal
     
+    // LFO
+    BOOL tremolo;           // YES => use LFO to generate tremolo
+    double lfoAmount;
+    double lfoFreq;
+    
 }
 @property (nonatomic, readonly) float period;
 @property (nonatomic, assign) float freq;
 @property (nonatomic, assign) BOOL bipolar;
 
+@property (nonatomic, assign) BOOL tremolo;
+@property (nonatomic, assign) double lfoAmount;
+@property (nonatomic, assign) double lfoFreq;
+
+
 
 - (float)bspline3:(float) a;
-- (float)nextValue;
+- (double)lfoFreq;
+- (double)nextValue;
 
 @end

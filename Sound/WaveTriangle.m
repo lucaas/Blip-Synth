@@ -29,7 +29,7 @@
 
     prev = sample + (1-kLeakRate) * prev;
     prev2 = scaling * ((1-kLeakRate) * prev + prev2);
-    return 2*prev2;
+    return 4*prev2;
 }
 
 @end

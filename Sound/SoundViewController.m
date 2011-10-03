@@ -12,6 +12,8 @@
 @synthesize synthesizer;
 @synthesize freqLabel;
 @synthesize freqSlider;
+@synthesize lfoMode;
+@synthesize lfoSwitch;
 
 - (void)didReceiveMemoryWarning
 {
@@ -102,6 +104,8 @@
 {
     [self setFreqLabel:nil];
     [self setFreqSlider:nil];
+    [self setLfoMode:nil];
+    [self setLfoSwitch:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -135,6 +139,14 @@
     return YES;
 }
 
+- (void)dealloc {
+    [lfoMode release];
+    [lfoSwitch release];
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark IBAction
 - (IBAction)startButtonTapped:(id)sender {
     [synthesizer togglePlay];
 }
@@ -197,7 +209,17 @@
     synthesizer.isADSR = sender.on;
 }
 
-- (void)dealloc {
-    [super dealloc];
+- (IBAction)LFOSwitchChanged:(id)sender {
+    BOOL isVibrato = (lfoMode.selectedSegmentIndex == 0);
+    [synthesizer setLFOEnabled:lfoSwitch.on vibrato:isVibrato];
 }
+
+- (IBAction)LFOFreqChanged:(UISlider *)sender {
+    synthesizer.LFOFreq = sender.value;
+}
+
+- (IBAction)LFOAmountChanged:(UISlider *)sender {
+    synthesizer.LFOAmount = sender.value;
+}
+
 @end

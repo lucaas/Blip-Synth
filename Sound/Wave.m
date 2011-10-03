@@ -27,5 +27,16 @@
     blit.freq = freq;
 }
 
+- (void)setLFOEnabled:(BOOL)enabled {
+    blit.tremolo = enabled;
+}
+
+- (void)setLFOAmount:(double)freq {
+    blit.lfoAmount = freq;
+}
+
+- (void)setLFOFreq:(double)freq {
+    blit.lfoFreq = freq;
+}
 
 @end

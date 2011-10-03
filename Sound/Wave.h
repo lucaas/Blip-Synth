@@ -20,4 +20,8 @@
 - (void)setFreq:(float)freq;
 - (float)nextValue;
 
+- (void)setLFOEnabled:(BOOL)enabled;
+- (void)setLFOFreq:(double)freq;
+- (void)setLFOAmount:(double)freq;
+
 @end

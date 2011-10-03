@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1864" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="35" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1864" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="56" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="865"/>
@@ -17,28 +17,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="BLIP SYNTH" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="36" id="6">
-                                <rect key="frame" x="20" y="0.0" width="357" height="101"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="72"/>
-                                <color key="textColor" red="0.44933480024337769" green="0.96737873554229736" blue="0.66752743721008301" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7">
-                                <rect key="frame" x="20" y="251" width="484" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <state key="normal" title="Start / Stop">
-                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="startButtonTapped:" destination="2" eventType="touchUpInside" id="9"/>
-                                </connections>
-                            </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="300" minValue="20" maxValue="800" id="8">
                                 <rect key="frame" x="18" y="420" width="988" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -53,26 +31,116 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="20">
-                                <rect key="frame" x="20" y="313" width="484" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="SIN"/>
-                                    <segment title="SQUARE"/>
-                                    <segment title="SAW"/>
-                                    <segment title="TRIANGLE"/>
-                                    <segment title="NOISE"/>
-                                </segments>
-                                <connections>
-                                    <action selector="soundTypeChanged:" destination="2" eventType="valueChanged" id="21"/>
-                                </connections>
-                            </segmentedControl>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="33">
                                 <rect key="frame" x="828" y="37" width="94" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="ADSRSwitchChanged:" destination="2" eventType="valueChanged" id="34"/>
+                                </connections>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7">
+                                <rect key="frame" x="20" y="225" width="304" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                <state key="normal" title="Start / Stop">
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startButtonTapped:" destination="2" eventType="touchUpInside" id="9"/>
+                                </connections>
+                            </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="5" maxValue="30" id="38">
+                                <rect key="frame" x="441" y="280" width="218" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="LFOFreqChanged:" destination="2" eventType="valueChanged" id="51"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="LFO" lineBreakMode="tailTruncation" minimumFontSize="10" id="37">
+                                <rect key="frame" x="360" y="139" width="297" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="OSCILATOR" lineBreakMode="tailTruncation" minimumFontSize="10" id="46">
+                                <rect key="frame" x="20" y="139" width="297" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREQ" lineBreakMode="tailTruncation" minimumFontSize="10" id="40">
+                                <rect key="frame" x="364" y="275" width="71" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="41">
+                                <rect key="frame" x="441" y="315" width="218" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="LFOAmountChanged:" destination="2" eventType="valueChanged" id="52"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AMNT" lineBreakMode="tailTruncation" minimumFontSize="10" id="42">
+                                <rect key="frame" x="364" y="310" width="71" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="20">
+                                <rect key="frame" x="20" y="174" width="304" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="" image="sine.png"/>
+                                    <segment title="" image="square.png"/>
+                                    <segment title="" image="saw.png"/>
+                                    <segment title="" image="triangle.png"/>
+                                    <segment title="" image="noise.png"/>
+                                </segments>
+                                <connections>
+                                    <action selector="soundTypeChanged:" destination="2" eventType="valueChanged" id="21"/>
+                                </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="35">
+                                <rect key="frame" x="360" y="173" width="304" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="" image="sine.png"/>
+                                    <segment title="" image="square.png"/>
+                                    <segment title="" image="saw.png"/>
+                                    <segment title="" image="triangle.png"/>
+                                    <segment title="" image="noise.png"/>
+                                </segments>
+                                <connections>
+                                    <action selector="soundTypeChanged:" destination="2" eventType="valueChanged" id="36"/>
+                                </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="47">
+                                <rect key="frame" x="360" y="224" width="304" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="FREQ"/>
+                                    <segment title="AMP"/>
+                                </segments>
+                                <connections>
+                                    <action selector="LFOSwitchChanged:" destination="2" eventType="valueChanged" id="54"/>
+                                </connections>
+                            </segmentedControl>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="44">
+                                <rect key="frame" x="570" y="138" width="94" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="LFOSwitchChanged:" destination="2" eventType="valueChanged" id="50"/>
                                 </connections>
                             </switch>
                         </subviews>
@@ -86,6 +154,8 @@
                     <connections>
                         <outlet property="freqLabel" destination="11" id="12"/>
                         <outlet property="freqSlider" destination="8" id="22"/>
+                        <outlet property="lfoMode" destination="47" id="53"/>
+                        <outlet property="lfoSwitch" destination="44" id="55"/>
                     </connections>
                 </viewController>
             </objects>
@@ -93,18 +163,28 @@
         </scene>
     </scenes>
     <resources>
+        <image name="noise.png" width="24" height="24"/>
+        <image name="saw.png" width="24" height="24"/>
+        <image name="sine.png" width="24" height="24"/>
+        <image name="square.png" width="24" height="24"/>
         <image name="synth.png" width="1024" height="768"/>
+        <image name="triangle.png" width="24" height="24"/>
     </resources>
     <classes>
         <class className="SoundViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SoundViewController.h"/>
             <relationships>
                 <relationship kind="action" name="ADSRSwitchChanged:"/>
+                <relationship kind="action" name="LFOAmountChanged:"/>
+                <relationship kind="action" name="LFOFreqChanged:"/>
+                <relationship kind="action" name="LFOSwitchChanged:"/>
                 <relationship kind="action" name="freqValueChanged:"/>
                 <relationship kind="action" name="soundTypeChanged:"/>
                 <relationship kind="action" name="startButtonTapped:"/>
                 <relationship kind="outlet" name="freqLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="freqSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="lfoMode" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="lfoSwitch" candidateClass="UISwitch"/>
             </relationships>
         </class>
     </classes>

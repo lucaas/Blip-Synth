@@ -12,6 +12,9 @@
 @synthesize period;
 @synthesize freq;
 @synthesize bipolar;
+@synthesize tremolo;
+@synthesize lfoFreq;
+@synthesize lfoAmount;
 
 - (id)init
 {
@@ -25,23 +28,38 @@
         impulseSampleIndex = 100;
         sign = 1;
         bipolar = NO;
+        tremolo = NO;
+        
+        lfoFreq = 10.0; // Hz
+        lfoAmount = 0.5; // Hz deviation +/-
     }
     
     return self;
 }
 
+- (double)lfoFreq {
+    // LFO, FREQ
+    static int sampleNumber = 0;
+    ++sampleNumber;
+    return freq + lfoAmount*40.0*sin(2*M_PI*sampleNumber*lfoFreq/fs);
+}
 
-- (float)nextValue {
+- (double)nextValue {
+    
+    double newFreq = freq;
+    if (tremolo) {
+        newFreq = [self lfoFreq];
+    }
     
     // Phase counter, trigger blit
     if ((--phase) < 0) {
         
         if (bipolar) {
             sign *= -1;
-            period = fs/freq/2.0;
+            period = fs/newFreq/2.0;
         }
         else {
-            period = fs/freq;
+            period = fs/newFreq;
         }
         
         periodFrac = period - (int)period;
@@ -52,16 +70,16 @@
     
     // Blit triggered
     if (impulseSampleIndex <= 2) {
-        float value = sign * [self bspline3:(impulseSampleIndex-periodFrac)];
+        double value = sign * [self bspline3:(impulseSampleIndex-periodFrac)];
         ++impulseSampleIndex;
         return value;
     }
     
-    return 0;
+    return 0.0;
         
 }
 
-- (float)bspline3:(float) a {
+- (double)bspline3:(float) a {
     if (a < -2 || a >= 2)
         return 0;
     else if (a < -1)
@@ -76,52 +94,3 @@
 
 
 @end
-
-
-
-/*
- clear fs f T Ts D0 phase blit m;
- len = 5.0;
- 
- fs = 44100; % sample rate (Hz)
- N = floor(len*fs);
- 
- f = 110; % frequency (Hz)
- T = 1/f; % period (s)
- Ts = 1/fs; % sample period
- D0 = T / Ts; % period of the bandlimited impulse train in samples
- 
- phase = D0/4; % phase counter
- m = 100;     % init variables
- blit = zeros(1,N);
- positive = -1;
- 
- for n = 1:N
- 
- f = f + (5000-110)/N; % frequency (Hz)
- T = 1/f; % period (s)
- Ts = 1/fs; % sample period
- D0 = T / Ts; % period of the bandlimited impulse train in samples
- 
- phase = phase - 1;
- if (phase < 0)
- phase = phase + D0/2;
- m = -1;
- positive = -1 * positive;
- end
- 
- if  m <= 2
- D = D0;
- Dint = floor(D); % int part of m*D0
- d = D - Dint; % frac part of m*d0
- %blit(n) = blit(n) + bspline3(n - Dint - d);
- blit(n) = blit(n) + positive*bspline3(m - d);
- m = m + 1;
- end
- end
- figure;
- subplot(2,1,1);
- stem(1:floor(2*D0), blit(1:floor(2*D0)));
- subplot(2,1,2);
- freqplot(blit,fs);
-*/
