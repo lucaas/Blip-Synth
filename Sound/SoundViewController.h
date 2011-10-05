@@ -8,23 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "Synthesizer.h"
+
+#define kC4Number 60
+#define kLFOAmp 0
+#define kLFOFreq 1
+
 @interface SoundViewController : UIViewController {
 
     Synthesizer *synthesizer;
     UILabel *freqLabel;
     UISlider *freqSlider;
-    UISegmentedControl *lfoMode;
     UISwitch *lfoSwitch;
     
     NSMutableArray *keyboard;
     
-    float midi[16];
+    
     
 }
 @property (nonatomic, retain) Synthesizer *synthesizer;
 @property (nonatomic, retain) IBOutlet UILabel *freqLabel;
 @property (nonatomic, retain) IBOutlet UISlider *freqSlider;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *lfoMode;
 @property (nonatomic, retain) IBOutlet UISwitch *lfoSwitch;
 
 - (IBAction)startButtonTapped:(id)sender;
@@ -34,5 +37,8 @@
 - (IBAction)LFOSwitchChanged:(id)sender;
 - (IBAction)LFOFreqChanged:(id)sender;
 - (IBAction)LFOAmountChanged:(id)sender;
+- (IBAction)arpSwitchChanged:(id)sender;
+- (IBAction)arpModeChanged:(id)sender;
+- (IBAction)arpFreqChanged:(id)sender;
 
 @end

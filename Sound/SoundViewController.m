@@ -12,7 +12,6 @@
 @synthesize synthesizer;
 @synthesize freqLabel;
 @synthesize freqSlider;
-@synthesize lfoMode;
 @synthesize lfoSwitch;
 
 - (void)didReceiveMemoryWarning
@@ -27,6 +26,7 @@
 {
     
     [super viewDidLoad];
+    /*
 	// Do any additional setup after loading the view, typically from a nib.
     midi[0] = 261.626; // C4
     midi[1] = 277.183;
@@ -44,6 +44,7 @@
     midi[13] = 554.365;
     midi[14] = 587.330;
     midi[15] = 622.254; // D5
+    */
     
     // Set up buttons
     UIImage *keyImage = [UIImage imageNamed:@"key.png"];
@@ -140,7 +141,6 @@
 }
 
 - (void)dealloc {
-    [lfoMode release];
     [lfoSwitch release];
     [super dealloc];
 }
@@ -176,9 +176,11 @@
 
 -(void)keyPressed:(UIButton *)sender {
     synthesizer.envelopeMode = kAttack;
-    synthesizer.frequency = midi[sender.tag];
-    freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", midi[sender.tag]];
-    freqSlider.value = midi[sender.tag];
+    int noteNumber = sender.tag + kC4Number;
+    synthesizer.note = noteNumber;
+    //synthesizer.frequency = midi[sender.tag];
+    freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", synthesizer.midi[noteNumber]];
+    freqSlider.value = synthesizer.midi[noteNumber];
 }
 
 -(void)keyUp:(UIButton *)sender {
@@ -209,17 +211,28 @@
     synthesizer.isADSR = sender.on;
 }
 
-- (IBAction)LFOSwitchChanged:(id)sender {
-    BOOL isVibrato = (lfoMode.selectedSegmentIndex == 0);
-    [synthesizer setLFOEnabled:lfoSwitch.on vibrato:isVibrato];
-}
+- (IBAction)LFOSwitchChanged:(UISwitch *)sender {
+    [synthesizer setLFO:sender.on forMode:sender.tag];
 
+}
 - (IBAction)LFOFreqChanged:(UISlider *)sender {
-    synthesizer.LFOFreq = sender.value;
+    [synthesizer setLFOFreq:sender.value forMode:sender.tag];
 }
 
 - (IBAction)LFOAmountChanged:(UISlider *)sender {
-    synthesizer.LFOAmount = sender.value;
+    [synthesizer setLFOAmount:sender.value forMode:sender.tag];
+}
+
+- (IBAction)arpSwitchChanged:(UISwitch *)sender {
+    synthesizer.arpEnabled = sender.on;
+}
+
+- (IBAction)arpModeChanged:(UISegmentedControl *)sender {
+    synthesizer.arpMode = sender.selectedSegmentIndex;
+}
+
+- (IBAction)arpFreqChanged:(UISlider *)sender {
+    synthesizer.arpFreq = sender.value;
 }
 
 @end

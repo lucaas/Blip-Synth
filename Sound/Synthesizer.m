@@ -9,6 +9,10 @@
 #import "Synthesizer.h"
 
 @implementation Synthesizer
+
+@dynamic midi;
+- (double *)midi { return midi; }
+
 @synthesize sampleRate;
 @synthesize frequency;
 @synthesize theta;
@@ -18,6 +22,8 @@
 @synthesize release;
 @synthesize waveType;
 @synthesize isADSR;
+@synthesize arpEnabled;
+@synthesize arpMode;
 
 - (id)init
 {
@@ -40,6 +46,19 @@
         LFOAmplitude = NO;
         lfoAmount = 0.5;
         lfoFreq = 10.0;
+        
+        arpPeriod = (int)sampleRate/4;
+        arpIndex = 0;
+        noteNumber = 60;
+        
+        
+        // Generate MIDI signals
+        double a5 = 440.0;
+        for(int i=0;i<128;i++) { 
+            //int note = i%12; 
+            double noteFreq = (a5 / 32.0) * pow(2.0, (((double)i-9.0)/12.0)); 
+            midi[i] = noteFreq;
+        }
     }
     
     return self;
@@ -57,6 +76,9 @@ double linearInterpolation(double x, double x0, double x1, double y0, double y1)
     active = YES;
     envelopeMode = _envelopeMode;
     elapsed = 0.0;
+    if (envelopeMode == kAttack)
+        arpIndex = 0;
+    
     NSLog(@"Changed envelope mode to: %d", envelopeMode);
 }
 
@@ -142,17 +164,28 @@ OSStatus RenderTone(
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) 
     {
         if (synthesizer->active) {
+            
+            static int sampleNumber = 0;
+            ++sampleNumber;
+            
+        
             if (synthesizer->isADSR) {
                 synthesizer->elapsed += (double) 1.0 / synthesizer->sampleRate;
                 amplitude = [synthesizer adsrAmplitude];
             }
+            
             // LFO, AMP
             double lfoAmplitude = amplitude;
             if (synthesizer->LFOAmplitude) {
-                static int sampleNumber = 0;
-                ++sampleNumber;
                 lfoAmplitude = amplitude + kMaxLFOAmplitude*synthesizer->lfoAmount*sin(2*M_PI*sampleNumber*synthesizer->lfoFreq/synthesizer->sampleRate);
             }
+            
+            // ARPEGGIO, change pitch every x seconds
+            
+             if (sampleNumber % synthesizer->arpPeriod == 0) {
+                [synthesizer doArp];
+            }
+            
             switch (synthesizer->waveType) {
             case kSinus:
 
@@ -189,12 +222,48 @@ OSStatus RenderTone(
             buffer[frame] = 0.0;
         }
         
-    
+        // printf("%2.4f, ", buffer[frame]);
+
     }
     synthesizer->theta = theta;
-
     return noErr;
 }
+
+- (void)setArpFreq:(double)freq {
+    arpPeriod = (int)sampleRate/freq;
+}
+
+- (void)doArp {
+    static int arp1OffsetsLength = 6;
+    static int arp1Offsets[6] = {0, 2, 4, 7, 4, 2};
+    static int arp2OffsetsLength = 3;
+    static int arp2Offsets[3] = {0, 7, 12};
+    static int arp3OffsetsLength = 14;
+    static int arp3Offsets[14] = {0, 2, 4, 5, 7, 9, 11, 12, 11, 9, 7, 5, 4, 2};    
+    
+    int note = noteNumber;
+    switch (arpMode) {
+        case kArpBach:
+            note += arp1Offsets[arpIndex++ % arp1OffsetsLength];
+            break;        
+        case kArpSimple:
+            note += arp2Offsets[arpIndex++ % arp2OffsetsLength];
+            break;        
+        case kArpLong:
+            note += arp3Offsets[arpIndex++ % arp3OffsetsLength];
+            break;
+        default:
+            break;
+    }
+    
+    self.frequency = midi[note];
+}
+
+- (void) setNote:(int)note {
+    noteNumber = note;
+    self.frequency = midi[note];
+}
+
 
 - (void)setFrequency:(double)freq {
     frequency = freq;
@@ -204,36 +273,36 @@ OSStatus RenderTone(
     noise.freq = freq;
 }
 
-- (void)setLFOEnabled:(BOOL)enabled vibrato:(BOOL)vibrato {
-    if (enabled) {
-        sawtooth.LFOEnabled = vibrato;
-        square.LFOEnabled = vibrato;
-        triangle.LFOEnabled = vibrato;
-        LFOAmplitude = !vibrato;
+- (void)setLFO:(BOOL)enabled forMode:(LFOMode)mode {
+    if (mode == kLFOFreq) {
+        sawtooth.LFOEnabled = enabled;
+        square.LFOEnabled = enabled;
+        triangle.LFOEnabled = enabled;
     }
     else {
-        sawtooth.LFOEnabled = NO;
-        square.LFOEnabled = NO;
-        triangle.LFOEnabled = NO;
-        LFOAmplitude = NO;
+        LFOAmplitude = enabled;
+    }
+}
+- (void)setLFOFreq:(double)value forMode:(LFOMode)mode {
+    if (mode == kLFOFreq) {
+        sawtooth.LFOFreq = value;
+        square.LFOFreq = value;
+        triangle.LFOFreq = value;
+    }
+    else {
+        lfoFreq = value;
     }
 }
 
-- (void)setLFOFreq:(double)freq {
-    lfoFreq = freq;
-    sawtooth.LFOFreq = freq;
-    square.LFOFreq = freq;
-    triangle.LFOFreq = freq;
+- (void)setLFOAmount:(double)freq forMode:(LFOMode)mode {
+    if (mode == kLFOFreq) {
+        sawtooth.LFOAmount = freq;
+        square.LFOAmount = freq;
+        triangle.LFOAmount = freq;        }
+    else {
+        lfoAmount = freq;
+    }
 }
-
-- (void)setLFOAmount:(double)freq {
-    lfoAmount = freq;
-    sawtooth.LFOAmount = freq;
-    square.LFOAmount = freq;
-    triangle.LFOAmount = freq;
-}
-
-
 
 - (void) createToneUnit {
     // Configure the search parameters to find the default playback output unit

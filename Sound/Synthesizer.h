@@ -31,7 +31,21 @@ typedef enum {
     kRelease = RELEASE
 } EnvelopeMode;
 
+typedef enum {
+    kLFOAmp = 0,
+    kLFOFreq = 1
+} LFOMode;
+
+typedef enum {
+    kArpSimple = 0,
+    kArpLong = 1,
+    kArpBach = 2
+} ArpMode;
+
 @interface Synthesizer : NSObject {
+    double midi[128];
+    int noteNumber;
+    
     double theta;
     double sampleRate;
     double frequency;
@@ -61,8 +75,14 @@ typedef enum {
     WaveNoise *noise;
     WaveType waveType;
     
+    BOOL arpEnabled;
+    ArpMode arpMode;
+    int arpPeriod;
+    int arpIndex;
+    
 }
 
+@property (nonatomic, readonly) double *midi;
 
 @property (nonatomic, assign) double theta;
 @property (nonatomic, assign) double sampleRate;
@@ -75,6 +95,10 @@ typedef enum {
 @property (nonatomic, assign) EnvelopeMode envelopeMode;
 @property (nonatomic, assign) BOOL isADSR;
 
+@property (nonatomic, assign) BOOL arpEnabled;
+@property (nonatomic, assign) ArpMode arpMode;
+
+
 OSStatus RenderTone(void *inRefCon, 
                     AudioUnitRenderActionFlags *ioActionFlags, 
                     const AudioTimeStamp *inTimeStamp, 
@@ -85,8 +109,13 @@ OSStatus RenderTone(void *inRefCon,
 
 
 
-- (void)setLFOEnabled:(BOOL)enabled;
-- (void)setLFOFreq:(double)freq;
-- (void)setLFOAmount:(double)freq;
+- (void)setLFO:(BOOL)enabled forMode:(LFOMode)mode;
+- (void)setLFOFreq:(double)value forMode:(LFOMode)mode;
+- (void)setLFOAmount:(double)freq forMode:(LFOMode)mode;
+- (void)setNote:(int)note;
+- (void)doArp;
+- (void)setArpFreq:(double)freq;
+
+double linearInterpolation(double x, double x0, double x1, double y0, double y1);
 
 @end

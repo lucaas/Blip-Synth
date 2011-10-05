@@ -23,13 +23,18 @@
     return self;
 }
 
+/*
+ u[n] = x[n] + leak * u[n-1]
+ y[n] = u[n] + leak * y[n-1]
+ o[n] = const * y[n]
+ */
 - (float)nextValue {
     float sample = [blit nextValue];
     float scaling = 2 * 4.0f / [blit period]; // *2 since bipolar blit has period = period/2
 
     prev = sample + (1-kLeakRate) * prev;
-    prev2 = scaling * ((1-kLeakRate) * prev + prev2);
-    return 4*prev2;
+    prev2 = prev + (1-kLeakRate) * prev2;
+    return scaling*prev2;
 }
 
 @end
