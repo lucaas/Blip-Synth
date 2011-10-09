@@ -47,6 +47,8 @@
         lfoAmount = 0.5;
         lfoFreq = 10.0;
         
+        arpEnabled = NO;
+        arpMode = kArpSimple;
         arpPeriod = (int)sampleRate/4;
         arpIndex = 0;
         noteNumber = 60;
@@ -182,7 +184,7 @@ OSStatus RenderTone(
             
             // ARPEGGIO, change pitch every x seconds
             
-             if (sampleNumber % synthesizer->arpPeriod == 0) {
+            if (synthesizer->arpEnabled && sampleNumber % synthesizer->arpPeriod == 0) {
                 [synthesizer doArp];
             }
             

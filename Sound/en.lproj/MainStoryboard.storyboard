@@ -240,24 +240,4 @@
         <image name="synth.png" width="1024" height="768"/>
         <image name="triangle.png" width="24" height="24"/>
     </resources>
-    <classes>
-        <class className="SoundViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SoundViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="ADSRSwitchChanged:"/>
-                <relationship kind="action" name="LFOAmountChanged:"/>
-                <relationship kind="action" name="LFOFreqChanged:"/>
-                <relationship kind="action" name="LFOSwitchChanged:"/>
-                <relationship kind="action" name="arpFreqChanged:"/>
-                <relationship kind="action" name="arpModeChanged:"/>
-                <relationship kind="action" name="arpSwitchChanged:"/>
-                <relationship kind="action" name="freqValueChanged:"/>
-                <relationship kind="action" name="soundTypeChanged:"/>
-                <relationship kind="action" name="startButtonTapped:"/>
-                <relationship kind="outlet" name="freqLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="freqSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="lfoSwitch" candidateClass="UISwitch"/>
-            </relationships>
-        </class>
-    </classes>
 </document>

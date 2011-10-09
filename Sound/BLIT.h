@@ -16,9 +16,7 @@
     int fs;                 // sample rate (hz)
     float freq;                // frequency (hz)
     float period;           // period of the bandlimited impulse train in samples
-    float periodFrac;      // Fractional part of period
     float phase;            // Phase counter
-    int impulseSampleIndex;                  // impulse sample number
     int sign;               // Sign of impulse
     BOOL bipolar;           // YES => bipolar impulses, NO => normal
     
@@ -38,8 +36,7 @@
 
 
 
-- (float)bspline3:(float) a;
+- (double)bspline3:(float) a;
 - (double)lfoFreq;
 - (double)nextValue;
-
 @end

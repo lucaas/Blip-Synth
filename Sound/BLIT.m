@@ -23,9 +23,8 @@
         fs = kSampleRate;
         freq = 440;
         period = fs/freq;
-        periodFrac = period - (int)period;
         phase = period/4;
-        impulseSampleIndex = 100;
+
         sign = 1;
         bipolar = NO;
         tremolo = NO;
@@ -52,7 +51,7 @@
     }
     
     // Phase counter, trigger blit
-    if ((--phase) < 0) {
+    if ((--phase) < -2) {
         
         if (bipolar) {
             sign *= -1;
@@ -62,16 +61,13 @@
             period = fs/newFreq;
         }
         
-        periodFrac = period - (int)period;
+        //periodFrac = period - (int)period;
         phase += period;
-        
-        impulseSampleIndex = -1;
     }
     
     // Blit triggered
-    if (impulseSampleIndex <= 2) {
-        double value = sign * [self bspline3:(impulseSampleIndex-periodFrac)];
-        ++impulseSampleIndex;
+    if (phase <= 2) {
+        double value = sign * [self bspline3:(phase)];
         return value;
     }
     
