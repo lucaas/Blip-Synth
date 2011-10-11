@@ -22,6 +22,8 @@
 		A0868AAC1414C42D0040CBFA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0868AAB1414C42D0040CBFA /* AudioToolbox.framework */; };
 		A0B59C951435BA1E00B34D4B /* synth.png in Resources */ = {isa = PBXBuildFile; fileRef = A0B59C941435BA1E00B34D4B /* synth.png */; };
 		A0B59C991435F6BB00B34D4B /* WaveNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B59C981435F6BB00B34D4B /* WaveNoise.m */; };
+		A0E5C1341442DAC800B24093 /* key-black-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = A0E5C1321442DAC800B24093 /* key-black-pressed.png */; };
+		A0E5C1351442DAC800B24093 /* key-black.png in Resources */ = {isa = PBXBuildFile; fileRef = A0E5C1331442DAC800B24093 /* key-black.png */; };
 		A0F8CD7D1414B406003DAF2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD7C1414B406003DAF2F /* UIKit.framework */; };
 		A0F8CD7F1414B406003DAF2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD7E1414B406003DAF2F /* Foundation.framework */; };
 		A0F8CD811414B406003DAF2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F8CD801414B406003DAF2F /* CoreGraphics.framework */; };
@@ -73,6 +75,8 @@
 		A0B59C941435BA1E00B34D4B /* synth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = synth.png; sourceTree = SOURCE_ROOT; };
 		A0B59C971435F6BB00B34D4B /* WaveNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveNoise.h; sourceTree = "<group>"; };
 		A0B59C981435F6BB00B34D4B /* WaveNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveNoise.m; sourceTree = "<group>"; };
+		A0E5C1321442DAC800B24093 /* key-black-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-black-pressed.png"; sourceTree = SOURCE_ROOT; };
+		A0E5C1331442DAC800B24093 /* key-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "key-black.png"; sourceTree = SOURCE_ROOT; };
 		A0F8CD781414B406003DAF2F /* Sound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F8CD7C1414B406003DAF2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A0F8CD7E1414B406003DAF2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -125,6 +129,8 @@
 		A0867D99142A1F0D0045B11B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A0E5C1321442DAC800B24093 /* key-black-pressed.png */,
+				A0E5C1331442DAC800B24093 /* key-black.png */,
 				A034A4BA1439B0B900223E02 /* noise.png */,
 				A034A4BB1439B0B900223E02 /* saw.png */,
 				A034A4BC1439B0B900223E02 /* square.png */,
@@ -312,6 +318,8 @@
 				A034A4BF1439B0B900223E02 /* saw.png in Resources */,
 				A034A4C01439B0B900223E02 /* square.png in Resources */,
 				A034A4C11439B0B900223E02 /* triangle.png in Resources */,
+				A0E5C1341442DAC800B24093 /* key-black-pressed.png in Resources */,
+				A0E5C1351442DAC800B24093 /* key-black.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

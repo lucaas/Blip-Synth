@@ -78,9 +78,6 @@ double linearInterpolation(double x, double x0, double x1, double y0, double y1)
     active = YES;
     envelopeMode = _envelopeMode;
     elapsed = 0.0;
-    if (envelopeMode == kAttack)
-        arpIndex = 0;
-    
     NSLog(@"Changed envelope mode to: %d", envelopeMode);
 }
 
@@ -241,7 +238,10 @@ OSStatus RenderTone(
     static int arp2OffsetsLength = 3;
     static int arp2Offsets[3] = {0, 7, 12};
     static int arp3OffsetsLength = 14;
-    static int arp3Offsets[14] = {0, 2, 4, 5, 7, 9, 11, 12, 11, 9, 7, 5, 4, 2};    
+    static int arp3Offsets[14] = {0, 2, 4, 5, 7, 9, 11, 12, 11, 9, 7, 5, 4, 2};   
+    
+    static int arp4OffsetsLength = 8;
+    static int arp4Offsets[8] = {0, 12, 0, -12, 0, 7, 0,  -7 };
     
     int note = noteNumber;
     switch (arpMode) {
@@ -254,18 +254,29 @@ OSStatus RenderTone(
         case kArpLong:
             note += arp3Offsets[arpIndex++ % arp3OffsetsLength];
             break;
+        case kArp4:
+            note += arp4Offsets[arpIndex++ % arp4OffsetsLength];
+            break;
         default:
             break;
     }
-    
+    self.envelopeMode = kAttack;
     self.frequency = midi[note];
 }
 
-- (void) setNote:(int)note {
+- (void)setNote:(int)note {
+    self.envelopeMode = kAttack;
     noteNumber = note;
     self.frequency = midi[note];
 }
 
+- (void)setPitch:(float)pitch {
+    int x0 = -2;
+    int x1 = 2;
+    double freq0 = midi[noteNumber + x0];
+    double freq1 = midi[noteNumber + x1];
+    self.frequency = linearInterpolation(pitch, x0, x1, freq0, freq1);
+}
 
 - (void)setFrequency:(double)freq {
     frequency = freq;

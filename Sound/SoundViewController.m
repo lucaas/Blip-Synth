@@ -13,6 +13,7 @@
 @synthesize freqLabel;
 @synthesize freqSlider;
 @synthesize lfoSwitch;
+@synthesize keysScrollView;
 
 - (void)didReceiveMemoryWarning
 {
@@ -26,46 +27,60 @@
 {
     
     [super viewDidLoad];
-    /*
-	// Do any additional setup after loading the view, typically from a nib.
-    midi[0] = 261.626; // C4
-    midi[1] = 277.183;
-    midi[2] = 293.665;
-    midi[3] = 311.127;
-    midi[4] = 329.628;
-    midi[5] = 349.228;
-    midi[6] = 369.994;
-    midi[7] = 391.995;
-    midi[8] = 415.305;
-    midi[9] = 440.000;
-    midi[10] = 466.164;
-    midi[11] = 493.883;
-    midi[12] = 523.251;
-    midi[13] = 554.365;
-    midi[14] = 587.330;
-    midi[15] = 622.254; // D5
-    */
+
     
     // Set up buttons
     UIImage *keyImage = [UIImage imageNamed:@"key.png"];
     UIImage *keyPressedImage = [UIImage imageNamed:@"key-pressed.png"];
-    int margin = 32;
+    UIImage *keyBlackImage = [UIImage imageNamed:@"key-black.png"];
+    UIImage *keyBlackPressedImage = [UIImage imageNamed:@"key-black-pressed.png"];
     int width = 64;
     int height = 256;
-    int top = 768-height-margin;
-    for (int i=0; i < 15; ++i) {
-        UIButton *key = [[[UIButton alloc] initWithFrame:CGRectMake(margin+i*width, top, width, height)] autorelease];
-        [key setImage:keyImage forState:UIControlStateNormal];
-        [key setImage:keyPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
-        key.tag = i;
+    int top = 0;
+    int firstKey = 21; // A0
+    int lastKey = 108; // C8
+    int numKeys = lastKey - firstKey;
+    NSArray *labels = [NSArray arrayWithObjects:@"C1",@"C2",@"C3",@"C4",@"C5",@"C6",@"C7",@"C8", nil];
+    for (int i=0; i <= numKeys; ++i) {
+        UIButton *key = [[[UIButton alloc] initWithFrame:CGRectMake(i*width, top, width, height)] autorelease];
+
+        int kn = i % 12;
+        if (kn == 1 || kn == 4 || kn == 6 || kn == 9 || kn == 11) {
+            [key setImage:keyBlackImage forState:UIControlStateNormal];
+            [key setImage:keyBlackPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        }
+        else {
+            [key setImage:keyImage forState:UIControlStateNormal];
+            [key setImage:keyPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        }
+        
+        if (kn == 3) {
+            // Create the label and set its text
+            CGRect labelFrame = CGRectMake(0, 192, 64, 64);
+            UILabel *label = [[UILabel alloc] initWithFrame:labelFrame];
+            label.backgroundColor = [UIColor clearColor];
+            label.font = [UIFont boldSystemFontOfSize:24.0f];
+            label.textColor = [UIColor darkGrayColor];
+            label.textAlignment = UITextAlignmentCenter;
+            [label setText:[labels objectAtIndex:(int)(i/12)]];
+            [key addSubview:label];
+        }
+        
+        key.tag = i + firstKey;
         [key addTarget:self action:@selector(keyPressed:) forControlEvents:UIControlEventTouchDown];
         [key addTarget:self action:@selector(keyUp:) forControlEvents:(UIControlEventTouchCancel | 
                                                                        UIControlEventTouchDragExit | 
                                                                        UIControlEventTouchUpInside | 
                                                                        UIControlEventTouchUpOutside)];
-        [self.view addSubview:key];
+        [self.keysScrollView addSubview:key];
     
     }
+    keysScrollView.contentSize = CGSizeMake((numKeys+1)*width, height);
+    keysScrollView.contentMode = UIViewContentModeTop;
+    CGRect frame = keysScrollView.frame;
+    frame.origin.x = frame.size.width * 3;
+    frame.origin.y = 0;
+    [keysScrollView scrollRectToVisible:frame animated:YES];
     
     // Set up ADSR sliders
     NSArray *adsrTexts = [NSArray arrayWithObjects:@"A", @"D", @"S", @"R", nil];
@@ -99,14 +114,15 @@
     
     // Synth
     self.synthesizer = [[Synthesizer alloc] init];
+    
 }
 
 - (void)viewDidUnload
 {
     [self setFreqLabel:nil];
     [self setFreqSlider:nil];
-    [self setLfoMode:nil];
     [self setLfoSwitch:nil];
+    [self setKeysScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -142,6 +158,7 @@
 
 - (void)dealloc {
     [lfoSwitch release];
+    [keysScrollView release];
     [super dealloc];
 }
 
@@ -152,9 +169,12 @@
 }
 
 - (IBAction)freqValueChanged:(UISlider *)sender {
-    synthesizer.frequency = sender.value;
-    freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", sender.value];
-    
+    float offset = sender.value/(sender.maximumValue - sender.minimumValue) * keysScrollView.contentSize.width;
+    if (offset > keysScrollView.contentSize.width - keysScrollView.frame.size.width)
+        offset = keysScrollView.contentSize.width - keysScrollView.frame.size.width;
+    keysScrollView.contentOffset = CGPointMake(offset, 0);
+    //synthesizer.frequency = sender.value;
+    //freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", sender.value];    
 }
 
 - (void)ADSRChanged:(UISlider *)sender {
@@ -175,12 +195,9 @@
 }
 
 -(void)keyPressed:(UIButton *)sender {
-    synthesizer.envelopeMode = kAttack;
-    int noteNumber = sender.tag + kC4Number;
+    int noteNumber = sender.tag;
     synthesizer.note = noteNumber;
-    //synthesizer.frequency = midi[sender.tag];
     freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", synthesizer.midi[noteNumber]];
-    freqSlider.value = synthesizer.midi[noteNumber];
 }
 
 -(void)keyUp:(UIButton *)sender {
@@ -233,6 +250,33 @@
 
 - (IBAction)arpFreqChanged:(UISlider *)sender {
     synthesizer.arpFreq = sender.value;
+}
+
+- (IBAction)changeKeysPage:(UISegmentedControl *)sender {
+    
+    int direction = 1;
+    if (sender.selectedSegmentIndex == 0)
+        direction = -1;
+    
+    sender.selectedSegmentIndex = -1;
+    
+    float x = keysScrollView.contentOffset.x + direction * 64 * 12;
+    float maxOffsetX = keysScrollView.contentSize.width - keysScrollView.frame.size.width;
+    x = (x < 0) ? 0 : x;
+    x = (x > maxOffsetX) ? maxOffsetX : x;
+    
+    [keysScrollView setContentOffset:CGPointMake(x, 0) animated:YES];
+
+}
+
+- (IBAction)pitchValueChanged:(UISlider *)sender {
+    synthesizer.pitch = sender.value;
+}
+
+- (IBAction)pitchValueStopped:(UISlider *)sender {
+    sender.value = 0.0;
+    synthesizer.pitch = sender.value;
+
 }
 
 @end

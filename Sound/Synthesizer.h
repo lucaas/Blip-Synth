@@ -37,9 +37,10 @@ typedef enum {
 } LFOMode;
 
 typedef enum {
-    kArpSimple = 0,
-    kArpLong = 1,
-    kArpBach = 2
+    kArpSimple,
+    kArpLong,
+    kArpBach,
+    kArp4
 } ArpMode;
 
 @interface Synthesizer : NSObject {
@@ -113,6 +114,7 @@ OSStatus RenderTone(void *inRefCon,
 - (void)setLFOFreq:(double)value forMode:(LFOMode)mode;
 - (void)setLFOAmount:(double)freq forMode:(LFOMode)mode;
 - (void)setNote:(int)note;
+- (void)setPitch:(float)pitch;
 - (void)doArp;
 - (void)setArpFreq:(double)freq;
 

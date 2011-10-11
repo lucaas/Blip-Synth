@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1864" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="110" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1864" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="128" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="865"/>
@@ -17,15 +17,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="300" minValue="20" maxValue="2000" id="8">
-                                <rect key="frame" x="18" y="420" width="988" height="23"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="freqValueChanged:" destination="2" eventType="valueChanged" id="10"/>
-                                </connections>
-                            </slider>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Frequency: 300 Hz" lineBreakMode="tailTruncation" minimumFontSize="10" id="11">
-                                <rect key="frame" x="415" y="380" width="194" height="32"/>
+                                <rect key="frame" x="652" y="452" width="194" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,8 +39,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="20">
-                                <rect key="frame" x="20" y="180" width="304" height="44"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="20">
+                                <rect key="frame" x="20" y="187" width="304" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="" image="sine.png"/>
@@ -56,6 +49,7 @@
                                     <segment title="" image="triangle.png"/>
                                     <segment title="" image="noise.png"/>
                                 </segments>
+                                <color key="tintColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="soundTypeChanged:" destination="2" eventType="valueChanged" id="21"/>
                                 </connections>
@@ -150,7 +144,9 @@
                                             <segment title="1"/>
                                             <segment title="2"/>
                                             <segment title="3"/>
+                                            <segment title="4"/>
                                         </segments>
+                                        <color key="tintColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="arpModeChanged:" destination="2" eventType="valueChanged" id="107"/>
                                         </connections>
@@ -215,6 +211,33 @@
                                     <action selector="startButtonTapped:" destination="2" eventType="valueChanged" id="109"/>
                                 </connections>
                             </switch>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" indicatorStyle="black" id="110">
+                                <rect key="frame" x="0.0" y="492" width="1024" height="256"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews/>
+                            </scrollView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-2" maxValue="2" id="111">
+                                <rect key="frame" x="18" y="462" width="301" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="pitchValueChanged:" destination="2" eventType="valueChanged" id="124"/>
+                                    <action selector="pitchValueStopped:" destination="2" eventType="touchUpInside" id="125"/>
+                                    <action selector="pitchValueStopped:" destination="2" eventType="touchUpOutside" id="126"/>
+                                    <action selector="pitchValueStopped:" destination="2" eventType="touchCancel" id="127"/>
+                                </connections>
+                            </slider>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" momentary="YES" id="122">
+                                <rect key="frame" x="854" y="453" width="150" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="&lt;"/>
+                                    <segment title=">"/>
+                                </segments>
+                                <color key="tintColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="changeKeysPage:" destination="2" eventType="valueChanged" id="123"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
@@ -225,7 +248,7 @@
                     <simulatedMetricsInferredSentinel key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="freqLabel" destination="11" id="12"/>
-                        <outlet property="freqSlider" destination="8" id="22"/>
+                        <outlet property="keysScrollView" destination="110" id="112"/>
                     </connections>
                 </viewController>
             </objects>
@@ -240,4 +263,28 @@
         <image name="synth.png" width="1024" height="768"/>
         <image name="triangle.png" width="24" height="24"/>
     </resources>
+    <classes>
+        <class className="SoundViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SoundViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="ADSRSwitchChanged:"/>
+                <relationship kind="action" name="LFOAmountChanged:"/>
+                <relationship kind="action" name="LFOFreqChanged:"/>
+                <relationship kind="action" name="LFOSwitchChanged:"/>
+                <relationship kind="action" name="arpFreqChanged:"/>
+                <relationship kind="action" name="arpModeChanged:"/>
+                <relationship kind="action" name="arpSwitchChanged:"/>
+                <relationship kind="action" name="changeKeysPage:"/>
+                <relationship kind="action" name="freqValueChanged:"/>
+                <relationship kind="action" name="pitchValueChanged:"/>
+                <relationship kind="action" name="pitchValueStopped:"/>
+                <relationship kind="action" name="soundTypeChanged:"/>
+                <relationship kind="action" name="startButtonTapped:"/>
+                <relationship kind="outlet" name="freqLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="freqSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="keysScrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="lfoSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+    </classes>
 </document>
