@@ -10,8 +10,6 @@
 
 @implementation Synthesizer
 
-@dynamic midi;
-- (double *)midi { return midi; }
 
 @synthesize sampleRate;
 @synthesize frequency;

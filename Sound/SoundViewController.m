@@ -10,8 +10,6 @@
 
 @implementation SoundViewController
 @synthesize synthesizer;
-@synthesize freqLabel;
-@synthesize freqSlider;
 @synthesize lfoSwitch;
 @synthesize keysScrollView;
 @synthesize holdSwitch;
@@ -120,8 +118,6 @@
 
 - (void)viewDidUnload
 {
-    [self setFreqLabel:nil];
-    [self setFreqSlider:nil];
     [self setLfoSwitch:nil];
     [self setKeysScrollView:nil];
     [self setHoldSwitch:nil];
@@ -200,7 +196,6 @@
 -(void)keyPressed:(UIButton *)sender {
     int noteNumber = sender.tag;
     synthesizer.play = noteNumber;
-    freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", synthesizer.midi[noteNumber]];
 }
 
 -(void)keyUp:(UIButton *)sender {

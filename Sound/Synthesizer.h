@@ -83,8 +83,6 @@ typedef enum {
     
 }
 
-@property (nonatomic, readonly) double *midi;
-
 @property (nonatomic, assign) double theta;
 @property (nonatomic, assign) double sampleRate;
 @property (nonatomic, assign) double frequency;

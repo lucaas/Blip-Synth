@@ -284,6 +284,9 @@
 /* Begin PBXProject section */
 		A0F8CD6F1414B406003DAF2F /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Jolly Monday";
+			};
 			buildConfigurationList = A0F8CD721414B406003DAF2F /* Build configuration list for PBXProject "Sound" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
