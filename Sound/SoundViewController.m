@@ -29,10 +29,16 @@
 
     
     // Set up buttons
-    UIImage *keyImage = [UIImage imageNamed:@"key.png"];
-    UIImage *keyPressedImage = [UIImage imageNamed:@"key-pressed.png"];
+    UIImage *keyLeftImage = [UIImage imageNamed:@"key-left.png"];
+    UIImage *keyLeftPressedImage = [UIImage imageNamed:@"pressed-left.png"];
+    UIImage *keyRightImage = [UIImage imageNamed:@"key-right.png"];
+    UIImage *keyRightPressedImage = [UIImage imageNamed:@"pressed-right.png"];
+    UIImage *keyBothImage = [UIImage imageNamed:@"key-both.png"];
+    UIImage *keyBothPressedImage = [UIImage imageNamed:@"pressed-both.png"];
+    UIImage *keyNoneImage = [UIImage imageNamed:@"key-none.png"];
+    UIImage *keyNonePressedImage = [UIImage imageNamed:@"pressed-none.png"];
     UIImage *keyBlackImage = [UIImage imageNamed:@"key-black.png"];
-    UIImage *keyBlackPressedImage = [UIImage imageNamed:@"key-black-pressed.png"];
+    UIImage *keyBlackPressedImage = [UIImage imageNamed:@"pressed-black.png"];
     int width = 64;
     int height = 256;
     int top = 0;
@@ -48,9 +54,22 @@
             [key setImage:keyBlackImage forState:UIControlStateNormal];
             [key setImage:keyBlackPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
         }
+        else if (kn == 0 || kn == 5 || kn == 10) {
+            [key setImage:keyBothImage forState:UIControlStateNormal];
+            [key setImage:keyBothPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        }
+        else if (kn == 2 || kn == 7) {
+            [key setImage:keyLeftImage forState:UIControlStateNormal];
+            [key setImage:keyLeftPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        }       
+        else if (kn == 3 || kn == 8) {
+            [key setImage:keyRightImage forState:UIControlStateNormal];
+            [key setImage:keyRightPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+        }
         else {
-            [key setImage:keyImage forState:UIControlStateNormal];
-            [key setImage:keyPressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+            [key setImage:keyNoneImage forState:UIControlStateNormal];
+            [key setImage:keyNonePressedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];
+            
         }
         
         if (kn == 3) {

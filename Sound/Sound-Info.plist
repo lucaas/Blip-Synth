@@ -33,7 +33,5 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
-	<key>UIStatusBarHidden</key>
-	<true/>
 </dict>
 </plist>
