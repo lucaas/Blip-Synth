@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1864" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="128" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1864" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="132" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="865"/>
@@ -17,10 +17,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Frequency: 300 Hz" lineBreakMode="tailTruncation" minimumFontSize="10" id="11">
-                                <rect key="frame" x="652" y="452" width="194" height="32"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Frequency: 300 Hz" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="11">
+                                <rect key="frame" x="810" y="413" width="194" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -87,17 +87,17 @@
                                             <action selector="LFOFreqChanged:" destination="2" eventType="valueChanged" id="91"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AMNT" lineBreakMode="tailTruncation" minimumFontSize="10" id="89">
-                                        <rect key="frame" x="15" y="79" width="71" height="32"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AMNT" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="89">
+                                        <rect key="frame" x="15" y="85" width="71" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREQ" lineBreakMode="tailTruncation" minimumFontSize="10" id="90">
-                                        <rect key="frame" x="15" y="38" width="71" height="32"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREQ" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="90">
+                                        <rect key="frame" x="15" y="45" width="71" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -130,10 +130,10 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREQ" lineBreakMode="tailTruncation" minimumFontSize="10" id="97">
-                                        <rect key="frame" x="15" y="90" width="71" height="32"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREQ" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="97">
+                                        <rect key="frame" x="15" y="95" width="71" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -172,10 +172,10 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREQ" lineBreakMode="tailTruncation" minimumFontSize="10" id="77">
-                                        <rect key="frame" x="22" y="51" width="71" height="32"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="FREQ" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="77">
+                                        <rect key="frame" x="22" y="59" width="71" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -186,10 +186,10 @@
                                             <action selector="LFOAmountChanged:" destination="2" eventType="valueChanged" id="82"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AMNT" lineBreakMode="tailTruncation" minimumFontSize="10" id="79">
-                                        <rect key="frame" x="22" y="92" width="71" height="32"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="AMNT" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="79">
+                                        <rect key="frame" x="22" y="99" width="71" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -238,6 +238,17 @@
                                     <action selector="changeKeysPage:" destination="2" eventType="valueChanged" id="123"/>
                                 </connections>
                             </segmentedControl>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="128">
+                                <rect key="frame" x="752" y="454" width="94" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOLD" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="129">
+                                <rect key="frame" x="677" y="453" width="67" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
@@ -248,6 +259,7 @@
                     <simulatedMetricsInferredSentinel key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="freqLabel" destination="11" id="12"/>
+                        <outlet property="holdSwitch" destination="128" id="131"/>
                         <outlet property="keysScrollView" destination="110" id="112"/>
                     </connections>
                 </viewController>
@@ -282,6 +294,7 @@
                 <relationship kind="action" name="startButtonTapped:"/>
                 <relationship kind="outlet" name="freqLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="freqSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="holdSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="keysScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="lfoSwitch" candidateClass="UISwitch"/>
             </relationships>

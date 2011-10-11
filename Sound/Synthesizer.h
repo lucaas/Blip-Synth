@@ -113,6 +113,7 @@ OSStatus RenderTone(void *inRefCon,
 - (void)setLFO:(BOOL)enabled forMode:(LFOMode)mode;
 - (void)setLFOFreq:(double)value forMode:(LFOMode)mode;
 - (void)setLFOAmount:(double)freq forMode:(LFOMode)mode;
+- (void)setPlay:(int)note;
 - (void)setNote:(int)note;
 - (void)setPitch:(float)pitch;
 - (void)doArp;

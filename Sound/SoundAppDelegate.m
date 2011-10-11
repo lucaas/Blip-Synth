@@ -15,6 +15,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    
+    // Set up default looks
+    [[UISwitch appearance] setOnTintColor:[UIColor redColor]];
+    [[UISlider appearance] setMinimumTrackTintColor:[UIColor redColor]];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }

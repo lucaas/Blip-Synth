@@ -84,48 +84,47 @@ double linearInterpolation(double x, double x0, double x1, double y0, double y1)
 
 -(double)adsrAmplitude {
     double amplitude = 0;
-    switch (envelopeMode) {
-        case kAttack:
-            if (elapsed < attack) {
-                double t0 = 0.0;
-                double y0 = 0.0;
-                // linear interpolation y0 -> maxAmp from t0 -> attack.
-                amplitude = linearInterpolation(elapsed, t0, attack, y0, maxAmp);
-            }
-            else {
-                elapsed = 0.0;
-                amplitude = maxAmp;
-                envelopeMode = kDecay;
-            }
-            break;
-        case kDecay:
-            if (elapsed < decay) {
-                double t0 = 0.0;
-                // linear interpolation maxamp -> sustain from t0 -> decay.
-                amplitude = linearInterpolation(elapsed, t0, decay, maxAmp, sustain);
-            }
-            else {
-                elapsed = 0.0;
-                amplitude = sustain;
-                envelopeMode = kSustain;
-            }
-            break;
-        case kSustain:
-            amplitude = sustain;
-            break;
-        case kRelease:
-            if ( elapsed < release) {
-                double t0 = 0.0;
-                double y1 = 0.0;
-                // linear interpolation sustain -> 0 from t0 -> release.
-                amplitude = linearInterpolation( elapsed, t0, release, sustain, y1);
-            }
-            else    {
-                active = NO;
-                amplitude = 0;
-            }
-            break;
+    if (envelopeMode == kAttack) {
+        if (elapsed < attack) {
+            double t0 = 0.0;
+            double y0 = 0.0;
+            // linear interpolation y0 -> maxAmp from t0 -> attack.
+            amplitude = linearInterpolation(elapsed, t0, attack, y0, maxAmp);
+        }
+        else {
+            elapsed = 0.0;
+            amplitude = maxAmp;
+            envelopeMode = kDecay;
+        }
     }
+    if (envelopeMode == kDecay ) {
+        if (elapsed < decay) {
+            double t0 = 0.0;
+            // linear interpolation maxamp -> sustain from t0 -> decay.
+            amplitude = linearInterpolation(elapsed, t0, decay, maxAmp, sustain);
+        }
+        else {
+            elapsed = 0.0;
+            amplitude = sustain;
+            envelopeMode = kSustain;
+        }
+    }
+    if (envelopeMode == kSustain) {
+        amplitude = sustain;
+    }
+    if (envelopeMode == kRelease) {
+        if ( elapsed < release) {
+            double t0 = 0.0;
+            double y1 = 0.0;
+            // linear interpolation sustain -> 0 from t0 -> release.
+            amplitude = linearInterpolation( elapsed, t0, release, sustain, y1);
+        }
+        else    {
+            active = NO;
+            amplitude = 0;
+        }
+    }
+    
     
     //NSLog(@"mode: %d, elapsed: %2.2f < %2.2f ?, amp: %2.2f ", envelopeMode,  elapsed, attack, amplitude);
     return amplitude;
@@ -264,6 +263,11 @@ OSStatus RenderTone(
     self.frequency = midi[note];
 }
 
+
+- (void)setPlay:(int)note {
+    self.note = note;
+    arpIndex = 0;
+}
 - (void)setNote:(int)note {
     self.envelopeMode = kAttack;
     noteNumber = note;

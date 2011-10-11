@@ -20,6 +20,7 @@
     UISlider *freqSlider;
     UISwitch *lfoSwitch;
     UIScrollView *keysScrollView;
+    UISwitch *holdSwitch;
     
     NSMutableArray *keyboard;
     
@@ -31,6 +32,7 @@
 @property (nonatomic, retain) IBOutlet UISlider *freqSlider;
 @property (nonatomic, retain) IBOutlet UISwitch *lfoSwitch;
 @property (nonatomic, retain) IBOutlet UIScrollView *keysScrollView;
+@property (nonatomic, retain) IBOutlet UISwitch *holdSwitch;
 
 - (IBAction)startButtonTapped:(id)sender;
 - (IBAction)freqValueChanged:(id)sender;

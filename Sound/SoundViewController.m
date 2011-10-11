@@ -14,6 +14,7 @@
 @synthesize freqSlider;
 @synthesize lfoSwitch;
 @synthesize keysScrollView;
+@synthesize holdSwitch;
 
 - (void)didReceiveMemoryWarning
 {
@@ -123,6 +124,7 @@
     [self setFreqSlider:nil];
     [self setLfoSwitch:nil];
     [self setKeysScrollView:nil];
+    [self setHoldSwitch:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -159,6 +161,7 @@
 - (void)dealloc {
     [lfoSwitch release];
     [keysScrollView release];
+    [holdSwitch release];
     [super dealloc];
 }
 
@@ -196,12 +199,13 @@
 
 -(void)keyPressed:(UIButton *)sender {
     int noteNumber = sender.tag;
-    synthesizer.note = noteNumber;
+    synthesizer.play = noteNumber;
     freqLabel.text = [NSString stringWithFormat:@"Frequency %4.0f Hz", synthesizer.midi[noteNumber]];
 }
 
 -(void)keyUp:(UIButton *)sender {
-    synthesizer.envelopeMode = kRelease;
+    if (holdSwitch.on == NO)
+        synthesizer.envelopeMode = kRelease;
 }
 
 - (IBAction)soundTypeChanged:(UISegmentedControl *)sender {
